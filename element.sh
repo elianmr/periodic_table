@@ -19,7 +19,7 @@ else # 1
     then # 3
       echo "I could not find that element in the database."
     else # 3      
-      echo "$RESULTS" | while IFS='|' read NAME BAR SYMBOL BAR TYPE BAR ATOMIC_MASS BAR MELTING_POINT_CELSIUS BAR BOILING_POINT_CELSIUS
+      echo "$RESULTS" | while IFS='|' read NAME SYMBOL TYPE ATOMIC_MASS MELTING_POINT_CELSIUS BOILING_POINT_CELSIUS
       do
         # Display message  
         echo "The element with atomic number $ATOMIC_NUMBER is "$NAME" (""$SYMBOL""). It's a $TYPE, with a mass of $ATOMIC_MASS amu. $NAME has a melting point of $MELTING_POINT_CELSIUS celsius and a boiling point of $BOILING_POINT_CELSIUS celsius."
@@ -31,14 +31,12 @@ else # 1
   then # 2
     NAME=$1
     ELEMENT_RESULTS=$($PSQL "SELECT e.atomic_number, symbol, type, atomic_mass, melting_point_celsius, boiling_point_celsius FROM elements AS e INNER JOIN properties AS p ON e.atomic_number = p.atomic_number INNER JOIN types AS t ON t.type_id = p.type_id WHERE e.name='$NAME'")
-    # echo -e "\nParameter: $NAME\nElement Result: $ELEMENT_RESULTS"
     if [[ -z $ELEMENT_RESULTS ]] # 4
     then # 4
       echo "I could not find that element in the database."
     else # 4
-      echo "$ELEMENT_RESULTS" | while IFS='|' read ATOMIC_NUMBER BAR SYMBOL BAR TYPE BAR ATOMIC_MASS BAR MELTING_POINT_CELSIUS BAR BOILING_POINT_CELSIUS
+      echo "$ELEMENT_RESULTS" | while IFS='|' read ATOMIC_NUMBER SYMBOL TYPE ATOMIC_MASS MELTING_POINT_CELSIUS BOILING_POINT_CELSIUS
       do
-        echo -e "\nName: $NAME\nSymbol: $SYMBOL\n"
         # Display message  
         echo "The element with atomic number $ATOMIC_NUMBER is "$NAME" (""$SYMBOL""). It's a $TYPE, with a mass of $ATOMIC_MASS amu. $NAME has a melting point of $MELTING_POINT_CELSIUS celsius and a boiling point of $BOILING_POINT_CELSIUS celsius."
       done
@@ -51,7 +49,7 @@ else # 1
     then # 5
       echo "I could not find that element in the database."
     else # 5
-      echo "$SYMBOL_RESULTS" | while IFS='|' read ATOMIC_NUMBER BAR NAME BAR TYPE BAR ATOMIC_MASS BAR MELTING_POINT_CELSIUS BAR BOILING_POINT_CELSIUS
+      echo "$SYMBOL_RESULTS" | while IFS='|' read ATOMIC_NUMBER NAME TYPE ATOMIC_MASS MELTING_POINT_CELSIUS BOILING_POINT_CELSIUS
       do
       # Display message  
       echo "The element with atomic number $ATOMIC_NUMBER is $NAME ($SYMBOL). It's a $TYPE, with a mass of $ATOMIC_MASS amu. $NAME has a melting point of $MELTING_POINT_CELSIUS celsius and a boiling point of $BOILING_POINT_CELSIUS celsius."
